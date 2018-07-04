@@ -39,11 +39,7 @@ S3Zipper.prototype = {
         return fileObj;
     }
     , calculateFileName: function (f) {
-        var name = f.Key.split("/");
-        name.shift();
-        name = name.join("/");
-        return name;
-
+        return f.Key.replace(this.params.s3FolderName + '/', '');
     }
 
     /*
@@ -393,6 +389,8 @@ S3Zipper.prototype = {
             };
             callback= arguments[3];
         }
+
+        this.params = params;
 
         var filestream = fs.createWriteStream(params.zipFileName);
         this.streamZipDataTo({
